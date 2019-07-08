@@ -73,9 +73,20 @@ class Books extends CI_Controller
     }
 
     public function editData(){
-    	echo '<pre>';
-    	print_r($_POST);
-    	exit;
+    	$book_id = $_POST['book_id'];
+      $book_title = $_POST['book_title'];
+      $book_price = $_POST['book_price'];
+      $book_author = $_POST['book_author'];
+      $book_publisher = $_POST['book_publisher'];
+      //$book_image = $_FILES['book_image'];
+      echo '<pre>';
+      print_r($_FILES);
+      exit;
+
+      $data = array('name'=>$book_title, 'price'=>$book_price, 'author'=>$book_author , 'publisher' =>$book_publisher , 'rating' =>8);
+
+      echo $books = $this->books_model->update_data($data, 'books', 'ID', $book_id);
+      exit;
     }
 }
 ?>

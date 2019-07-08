@@ -27,6 +27,15 @@ class Books_Model extends CI_Model
     	}
      }
 
+     public function update_data($data, $tablename, $columnname, $columnid) {
+        $this->db->where($columnname, $columnid);
+        if ($this->db->update($tablename, $data)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
 
 ?>

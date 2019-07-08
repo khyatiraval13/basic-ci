@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-md-8">
         <h1>Edit Book List</h1>
-        <form name="book_edit" id="book_edit" method="POST" onsubmit="bookEditSubmit(event);">
+        <form name="book_edit" id="book_edit" method="POST" onsubmit="bookEditSubmit(event);" enctype="multipart/form-data">
             <input type="hidden" name="book_id" value="<?php echo (!empty($book_detail['ID'])) ? $book_detail['ID'] : '' ?>">
         <div class="form-group">
             <label for="book_title">Book Title:</label>
@@ -32,6 +32,12 @@
             <input type="text" class="form-control" name="book_publisher" id="book_publisher" value="<?php echo (!empty($book_detail['publisher'])) ? $book_detail['publisher'] : '' ?>">
         </div>
 
+        <div class="form-group">
+            <label for="book_publisher">Image:</label>
+            <input type="file" class="form-control" name="book_image" id="book_image" value="<?php echo (!empty($book_detail['book_image'])) ? $book_detail['book_image'] : '' ?>">
+            <input type="file" name="dataupload" id="myupload">
+        </div>
+
         <button type="submit" name="submit" class="btn btn-default">Submit</button>
         </form>
         </div>
@@ -47,15 +53,22 @@ function bookEditSubmit(e){
     console.log(1121);
     e.preventDefault();
    // var formAction = form.attr('action');
+    var formData = $("#book_edit").serialize();
     $.ajax({
-        url         : baseurl + 'books/editData',
-        data        : $("#book_edit").serialize(),
-        cache       : false,
-        contentType : false,
-        processData : false,
-        type        : 'POST',
-        success     : function(data, textStatus, jqXHR){
-            // Callback code
+        url: baseurl + 'books/editData',
+        type: 'post',
+        data: formData,
+        success: function (result) {
+            if(result == 1){
+                alert('Your data has been successfully updated');
+                window.location = baseurl + 'books';
+            }else{
+                alert('Oops! something is wrong.');
+                location.reload();
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            return false;
         }
     });
 }
